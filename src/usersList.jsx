@@ -2,6 +2,7 @@ import './usersList.module.css'
 
 import { useEffect, useState } from 'react'
 import { api } from "./api/api"
+import { Menu } from './components/menu'
 
 function UsersList() {
   const [users, setUsers] = useState([])
@@ -29,7 +30,9 @@ function UsersList() {
   if (error) return <p>{error}</p>
 
   return (
-    <div style={{padding: '2rem'}}>
+    <section>
+      <Menu/>
+    <div>
       <h1>Lista de Usuarios</h1>
       <ul>
         {users.map((item) => (
@@ -39,6 +42,7 @@ function UsersList() {
         ))}
       </ul>
     </div>
+    </section>
 
   )
 }
