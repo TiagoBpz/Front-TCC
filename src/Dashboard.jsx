@@ -9,10 +9,45 @@ function Dashboard(){
     const [userCount, setUserCount] = useState(0)
     const [productCount, setProductCount] = useState(0)
 
+    useEffect(() =>{
+        const storedUser = localStorage.getItem('user')
+        if(!storedUser) navigate('/')
+    },[navigate])
+
+    useEffect(() => {
+        async function fetchData(){
+            try{
+                const [usersRes, productsRes] = await Promise.all([
+                    api.get('/users'),
+                    api.get('/list'),
+                ])
+                setUserCount(usersRes.data.lenght)
+                setProductCount(productsRes.data.lenght)
+            }catch(err){
+                console.error("Erro ao buscar dados do dashboard", err)
+            }
+        }
+        fetchData()
+    }, [])
+    
 
     return(
         <section>
             <Menu/>
+            <div className={styles.wrapNav}>
+                <div className={styles.wrapItem} onClick={() => navigate('/#')}>
+                    <p>Criar Produto</p>
+                 </div>
+                <div className={styles.wrapItem} onClick={() => navigate('/#')}>
+                    <p> Lista de produos - ({productCount} produtos)</p>
+                 </div>
+                <div className={styles.wrapItem} onClick={() => navigate('/#')}>
+                    <p>Criar usuario</p>
+                 </div>
+                <div className={styles.wrapItem} onClick={() => navigate('/usersList')}>
+                    <p>Lista de usuarios - ({userCount} usuarios)</p>
+                 </div>
+            </div>
         </section>
 
     )
